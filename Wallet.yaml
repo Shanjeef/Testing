@@ -1,0 +1,504 @@
+openapi: 3.0.0
+info:
+  title: WalletDemo
+  version: '1.0'
+  description: A demo API for the Wallet team.
+  contact:
+    name: Sample Name
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/wallets/{user_id}':
+    parameters:
+      - schema:
+          type: string
+        name: user_id
+        in: path
+        required: true
+        description: The user ID of the desired user.
+    get:
+      summary: Get Wallet
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  data:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          minLength: 1
+                        id:
+                          type: string
+                          minLength: 1
+                        attributes:
+                          type: object
+                          properties:
+                            activation_date:
+                              type: number
+                            end_date:
+                              type: number
+                            first_name:
+                              type: string
+                              minLength: 1
+                            last_name:
+                              type: string
+                              minLength: 1
+                            product_type:
+                              type: string
+                              minLength: 1
+                            spending_account:
+                              type: object
+                              required:
+                                - Allocation
+                                - Balance
+                                - DisbursementDescription
+                                - PolicyEndDate
+                                - PolicyStartDate
+                                - Spent
+                                - TopUp
+                                - TotalAllocation
+                              properties:
+                                Allocation:
+                                  type: object
+                                  required:
+                                    - C
+                                    - F
+                                    - M
+                                  properties:
+                                    C:
+                                      type: string
+                                      minLength: 1
+                                    F:
+                                      type: number
+                                    M:
+                                      type: number
+                                AllocationSchedule: {}
+                                Balance:
+                                  type: object
+                                  required:
+                                    - C
+                                    - F
+                                    - M
+                                  properties:
+                                    C:
+                                      type: string
+                                      minLength: 1
+                                    F:
+                                      type: number
+                                    M:
+                                      type: number
+                                DisbursementDescription:
+                                  type: string
+                                PolicyEndDate:
+                                  type: string
+                                PolicyStartDate:
+                                  type: string
+                                Spent:
+                                  type: object
+                                  required:
+                                    - C
+                                    - F
+                                    - M
+                                  properties:
+                                    C:
+                                      type: string
+                                    F:
+                                      type: number
+                                    M:
+                                      type: number
+                                TopUp:
+                                  type: object
+                                  required:
+                                    - C
+                                    - F
+                                    - M
+                                  properties:
+                                    C:
+                                      type: string
+                                    F:
+                                      type: number
+                                    M:
+                                      type: number
+                                TotalAllocation:
+                                  type: object
+                                  required:
+                                    - C
+                                    - F
+                                    - M
+                                  properties:
+                                    C:
+                                      type: string
+                                    F:
+                                      type: number
+                                    M:
+                                      type: number
+                          required:
+                            - activation_date
+                            - end_date
+                            - first_name
+                            - last_name
+                            - product_type
+                            - spending_account
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              required:
+                                - data
+                                - links
+                              properties:
+                                data:
+                                  type: object
+                                  required:
+                                    - type
+                                    - id
+                                  properties:
+                                    type:
+                                      type: string
+                                      minLength: 1
+                                    id:
+                                      type: string
+                                      minLength: 1
+                                links:
+                                  type: object
+                                  required:
+                                    - self
+                                  properties:
+                                    self:
+                                      type: string
+                                      minLength: 1
+                          required:
+                            - user
+                        links:
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                              minLength: 1
+                          required:
+                            - self
+                      required:
+                        - type
+                        - id
+                  included:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          minLength: 1
+                        id:
+                          type: string
+                          minLength: 1
+                        attributes:
+                          type: object
+                          properties:
+                            createDate:
+                              type: number
+                            email:
+                              type: string
+                              minLength: 1
+                            emailVerified:
+                              type: boolean
+                            firstName:
+                              type: string
+                              minLength: 1
+                            lastName:
+                              type: string
+                              minLength: 1
+                          required:
+                            - createDate
+                            - email
+                            - emailVerified
+                            - firstName
+                            - lastName
+                      required:
+                        - type
+                        - id
+                required:
+                  - data
+                  - included
+      operationId: get-wallets-user_id
+      description: Returns all wallet details of the provided user.
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: This model represents a user on the League Platform.
+      additionalProperties: false
+      properties:
+        user_id:
+          type: string
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+          example: Shanjeef
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date-time
+          example: '1997-10-15T17:32:28Z'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date-time
+          description: The date that the user was created.
+      required:
+        - user_id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+    SpendingBenefitCard:
+      title: SpendingBenefitCard
+      type: object
+      x-examples:
+        example-1:
+          value:
+            id: string
+            product_type: string
+            activation_date: '2019-08-24T14:15:22Z'
+            end_date: string
+            inactive_date: string
+            first_name: string
+            last_name: string
+            '': string
+      description: ''
+      properties:
+        product_type:
+          type: string
+          description: This is a product type
+        activation_date:
+          type: string
+          format: date-time
+          description: This is the activation date
+        end_date:
+          type: string
+          format: date-time
+        inactive_date:
+          type: string
+          format: date-time
+        first_name:
+          type: string
+          example: Shanjeef
+        last_name:
+          type: string
+        spending_account:
+          $ref: '#/components/schemas/Wallet_SpendingAccount'
+        user:
+          $ref: '#/components/schemas/User'
+        id:
+          type: string
+      required:
+        - product_type
+        - activation_date
+        - end_date
+        - first_name
+        - last_name
+        - id
+    Money:
+      title: Money
+      type: object
+      properties:
+        currency:
+          type: string
+        value:
+          type: number
+    SpendingAccount:
+      title: SpendingAccount
+      type: object
+      properties:
+        allocated:
+          $ref: '#/components/schemas/Money'
+        balance:
+          $ref: '#/components/schemas/Money'
+        spent:
+          $ref: '#/components/schemas/Money'
+      required:
+        - allocated
+        - balance
+        - spent
+    Wallet_SpendingAccount:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          allocation:
+            C: CAD
+            F: 375
+            M: 37500
+          allocation_schedule:
+            - allocate_on: '2021-06-01T05:00:00Z'
+              amount_to_allocate:
+                C: CAD
+                F: 375
+                M: 37500
+            - allocate_on: '2021-09-01T05:00:00Z'
+              amount_to_allocate:
+                C: CAD
+                F: 375
+                M: 37500
+            - allocate_on: '2021-12-01T05:00:00Z'
+              amount_to_allocate:
+                C: CAD
+                F: 375
+                M: 37500
+          balance:
+            C: CAD
+            F: 63.1
+            M: 6310
+          disbursement_description: $375.00 / Allocated Quarterly
+          policy_end_date: '2022-03-01T05:00:00Z'
+          policy_start_date: '2021-03-01T05:00:00Z'
+          spent:
+            C: CAD
+            F: 312.44
+            M: 31244
+          top_up:
+            C: CAD
+            F: 0
+            M: 0
+          total_allocation:
+            C: CAD
+            F: 1500
+            M: 150000
+      properties:
+        allocation:
+          type: object
+          required:
+            - C
+            - F
+            - M
+          properties:
+            C:
+              type: string
+              minLength: 1
+            F:
+              type: number
+            M:
+              type: number
+        allocation_schedule:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            type: object
+            properties:
+              allocate_on:
+                type: string
+                minLength: 1
+              amount_to_allocate:
+                type: object
+                properties:
+                  C:
+                    type: string
+                    minLength: 1
+                  F:
+                    type: number
+                  M:
+                    type: number
+                required:
+                  - C
+                  - F
+                  - M
+            required:
+              - allocate_on
+        balance:
+          type: object
+          required:
+            - C
+            - F
+            - M
+          properties:
+            C:
+              type: string
+              minLength: 1
+            F:
+              type: number
+            M:
+              type: number
+        disbursement_description:
+          type: string
+          minLength: 1
+        policy_end_date:
+          type: string
+          minLength: 1
+        policy_start_date:
+          type: string
+          minLength: 1
+        spent:
+          type: object
+          required:
+            - C
+            - F
+            - M
+          properties:
+            C:
+              type: string
+              minLength: 1
+            F:
+              type: number
+            M:
+              type: number
+        top_up:
+          type: object
+          required:
+            - C
+            - F
+            - M
+          properties:
+            C:
+              type: string
+              minLength: 1
+            F:
+              type: number
+            M:
+              type: number
+        total_allocation:
+          type: object
+          required:
+            - C
+            - F
+            - M
+          properties:
+            C:
+              type: string
+              minLength: 1
+            F:
+              type: number
+            M:
+              type: number
+      required:
+        - allocation
+        - allocation_schedule
+        - balance
+        - disbursement_description
+        - policy_end_date
+        - policy_start_date
+        - spent
+        - top_up
+        - total_allocation
+      title: ''
+  securitySchemes: {}
