@@ -1,0 +1,16 @@
+{
+    "formats": {
+        "openapi": {
+            "rootDir": "resources/apis"
+        },
+        "json_schema": {
+            "rootDir": "schemas"
+        },
+        "markdown": {
+            "rootDir": "help"
+        }
+    },
+    "exclude": [
+        "test"
+    ]
+}
