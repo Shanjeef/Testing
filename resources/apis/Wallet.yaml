@@ -233,7 +233,7 @@ paths:
                 required:
                   - data
                   - included
-      operationId: get-wallets-user_id
+      operationId: get-wallets-by-user_id
       description: Returns all wallet details of the provided user.
 components:
   schemas:
